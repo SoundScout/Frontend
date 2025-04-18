@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import BackButton from '../../components/BackButton'; // ✅ Correct import!
+import CheckBox from 'react-native-check-box';
 
 export default function PlaylistScreen() {
   const route = useRoute();
   const { playlistTitle, tracks, isForYou } = route.params;
+  const [checkedTracks, setCheckedTracks] = useState({});
 
-  const renderTrack = ({ item }) => (
-    <View style={styles.trackItem}>
-      <Text style={styles.trackTitle}>{item.title}</Text>
-      {isForYou && (
-        <View style={styles.checkboxButton}>
-          <View style={styles.checkbox} />
-        </View>
-      )}
-    </View>
-  );
+  const renderTrack = ({ item }) => {
+    const isChecked = !!checkedTracks[item.id];
+    return (
+      <View style={styles.trackItem}>
+        <Text style={styles.trackTitle}>{item.title}</Text>
+        {isForYou && (
+          <CheckBox
+            isChecked={isChecked}
+            onClick={() =>
+              setCheckedTracks(prev => ({
+                ...prev,
+                [item.id]: !prev[item.id],
+              }))
+            }
+            style={styles.checkboxButton}
+            checkBoxColor="#2a9df4"
+          />
+        )}
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -79,7 +92,7 @@ const styles = StyleSheet.create({
   checkboxButton: {
     width: 24,
     height: 24,
-    borderWidth: 2,
+    borderWidth: 0,
     borderColor: '#2a9df4',
     borderRadius: 6,
     justifyContent: 'center',

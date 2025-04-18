@@ -43,15 +43,34 @@ export default function BottomNavigator() {
         },
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
-          if (route.name === 'Home') iconName = 'home';
-          else if (route.name === 'Explore') iconName = 'search';
-          else if (route.name === 'Notifications') iconName = 'notifications';
-          else if (route.name === 'Profile') iconName = 'person';
-          else if (route.name === 'Settings') iconName = 'settings';
-          else if (route.name === 'Upload') iconName = 'cloud-upload-outline';
-          else if (route.name === 'Stats') iconName = 'stats-chart';
-          else if (route.name === 'Review') iconName = 'clipboard-outline';
+          switch (route.name) {
+            case 'Home':
+              iconName = focused ? 'home' : 'home-outline';
+              break;
+            case 'Explore':
+              iconName = focused ? 'search' : 'search-outline';
+              break;
+            case 'Notifications':
+              iconName = focused ? 'notifications' : 'notifications-outline';
+              break;
+            case 'Profile':
+              iconName = focused ? 'person' : 'person-outline';
+              break;
+            case 'Settings':
+              iconName = focused ? 'settings' : 'settings-outline';
+              break;
+            case 'Upload':
+              iconName = focused ? 'cloud-upload' : 'cloud-upload-outline';
+              break;
+            case 'Stats':
+              iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+              break;
+            case 'Review':
+              iconName = focused ? 'clipboard' : 'clipboard-outline';
+              break;
+            default:
+              iconName = focused ? 'ellipse' : 'ellipse-outline';
+          }
 
           // 🔥 Animate if focused
           return (
@@ -59,7 +78,7 @@ export default function BottomNavigator() {
               animation={focused ? 'bounceIn' : undefined}
               duration={800}
             >
-              <Ionicons name={iconName} size={10} color={color} />
+              <Ionicons name={iconName} size={size} color={color} />
             </Animatable.View>
           );
         },
