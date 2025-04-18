@@ -15,6 +15,10 @@ export function AuthProvider({ children }) {
     setIsAuthenticated(true);
   };
 
+  const completePreferences = () => {
+    setUser(prev => ({ ...prev, preferencesCompleted: true }));
+  };
+
   const logout = () => {
     setUser(null);
     setRole(null);
@@ -22,7 +26,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, role, isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ user, role, isAuthenticated, login, logout, completePreferences }}>
       {children}
     </AuthContext.Provider>
   );

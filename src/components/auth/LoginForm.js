@@ -46,13 +46,18 @@ export default function LoginForm() {
     if (hasError) return;
 
     // ✅ Save user info and role
-    login({ email }, 'listener'); // Default login as "listener"
+    const user = { email, preferencesCompleted: false }; // Assume preferences are not completed for now
+    login(user, 'moderator'); // Default login as "moderator"
 
-    // ✅ Navigate to Home screen and reset stack
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'MainApp' }],
-    });
+    // ✅ Navigate based on preferences completion
+    if (!user.preferencesCompleted) {
+      navigation.navigate('UserPreferences', { username: email.split('@')[0] }); // Pass username from email
+    } else {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'MainApp' }],
+      });
+    }
   };
 
   return (

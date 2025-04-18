@@ -39,8 +39,9 @@ export default function RegisterForm() {
     }
     if (hasError) return;
   
-    // ✅ Success: Register as listener
-    login({ email, username }, 'listener');
+  // ✅ Success: Register as listener
+  const user = { username, email, preferencesCompleted: false };
+  login(user, 'listener');
   
     // ✅ Clear fields
     setUsername('');
@@ -48,11 +49,15 @@ export default function RegisterForm() {
     setPassword('');
     setConfirmPassword('');
   
-    // ✅ Correct navigation:
+  // ✅ Correct navigation:
+  if (!user.preferencesCompleted) {
+    navigation.navigate('UserPreferences', { username: user.username });
+  } else {
     navigation.reset({
       index: 0,
       routes: [{ name: 'MainApp' }],
     });
+  }
   };
   return (
     <>
